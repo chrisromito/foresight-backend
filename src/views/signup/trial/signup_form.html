@@ -1,0 +1,176 @@
+
+<md-card>
+    <md-card-header>
+        <h2 class="md-display-2">
+            Start For Free
+        </h2>
+    </md-card-header>
+
+    {# Form #}
+    <md-card-content>
+        <form id="signup--form"
+                class="signup--form md-layout"
+                method="POST">
+            
+            {#-- Company Details --#}
+            <div class="md-display-1">
+                Company Information
+            </div>
+
+            {# Company Name #}
+            <md-field>
+                <label for="companyName">
+                    Company Name
+                </label>
+                <md-input
+                        v-model="companyName"
+                        id="companyName"
+                        name="companyName"
+                        type="text"
+                        required
+                        minlength="2"
+                        maxlength="300">
+                </md-input>
+            </md-field>
+
+            {# Phone Number #}
+            <md-field>
+                <label for="website">
+                    Phone Number
+                </label>
+                <md-input
+                        v-model="phone"
+                        id="phone"
+                        name="phone"
+                        aria-controls="phone-validation"
+                        type="tel"
+                        required
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"></md-input>
+                <span class="md-helper-text" id="phone-validation">
+                    Format: 123-456-7890
+                </span>
+            </md-field>
+
+            {# Website #}
+            <md-field>
+                <label for="website">
+                    Web Site
+                </label>
+                <md-input
+                        v-model="website"
+                        name="website"
+                        id="website"
+                        aria-controls="website-validation"
+                        type="url"
+                        required
+                        pattern="http.*"
+                        minlength="12"></md-input>
+                <span class="md-helper-text" id="website-validation">
+                    <b>Format:</b>
+                    https://www.example.com - or - http://www.example.com
+                </span>
+            </md-field>
+
+            <div class="width--100 pad--v-30">
+                <md-divider class="width--100"></md-divider>
+            </div>
+            
+
+            {#-- User Details --#}
+            <div class="md-display-1">
+                Account Information
+            </div>
+            
+            {# First Name #}
+            <md-field>
+                <label for="firstName">
+                    First Name
+                </label>
+                <md-input
+                        v-model="firstName"
+                        id="firstName"
+                        name="firstName"
+                        type="text"
+                        required
+                        minlength="2"
+                        maxlength="300"></md-input>
+            </md-field>
+
+            {# Last Name #}
+            <md-field>
+                <label for="lastName">
+                    Last Name
+                </label>
+                <md-input
+                        v-model="lastName"
+                        id="lastName"
+                        type="text"
+                        name="lastName"
+                        required
+                        minlength="2"
+                        maxlength="300"></md-input>
+            </md-field>
+
+            {# Email #}
+            <md-field>
+                <label for="email">
+                    Email
+                </label>
+                <md-input
+                        v-model="email"
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
+                        minlength="2"
+                        maxlength="400"></md-input>
+            </md-field>
+
+            {# password1 #}
+            <md-field>
+                <label for="password1">
+                    Password
+                </label>
+                <md-input
+                        v-model="password1"
+                        id="password1"
+                        type="password"
+                        name="password1"
+                        required
+                        minlength="8"
+                        aria-controls="password1-validation"></md-input>
+                <span class="md-error" id="password1-validation">
+                    Password must be at least 8 characters long.
+                </span>
+            </md-field>
+
+            {# password2 #}
+            <md-field>
+                <label for="password2">
+                    Re-enter your password
+                </label>
+                <md-input
+                        v-model="password2"
+                        id="password2"
+                        type="password"
+                        name="password2"
+                        required
+                        minlength="8"
+                        aria-controls="password2-validation"></md-input>
+                <span class="md-error" id="password2-validation">
+                    Passwords do not match
+                </span>
+            </md-field>
+        </form>
+    </md-card-content>
+
+    <md-progress-bar md-mode="indeterminate" v-if="saving"></md-progress-bar>
+
+    {# Actions #}
+    <md-card-actions>
+        <md-button class="md-accent md-raised" @click="submitForm">
+            Submit
+        </md-button>
+    </md-card-actions>
+
+</md-card>

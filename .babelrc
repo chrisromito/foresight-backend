@@ -1,0 +1,39 @@
+{
+    "presets": [
+        "@babel/preset-env"
+    ],
+    "plugins": [
+        "@babel/transform-runtime",
+        "@babel/plugin-syntax-dynamic-import",
+        [
+            "@babel/plugin-proposal-class-properties",
+            { "loose": true }
+        ],
+        [
+            "@babel/plugin-proposal-pipeline-operator",
+            { "proposal": "fsharp" }
+        ],
+        "ramda",
+        [
+            "module-resolver",
+            {
+                "root": ".",
+                "alias": {
+                    "app": "./dist/app",
+                    "common": "./dist/common",
+                    "constants": "./dist/constants.js",
+                    "controllers": "./dist/controllers",
+                    "lib": "./dist/lib",
+                    "middleware": "./dist/middleware",
+                    "models": "./dist/models",
+                    "neural": "./dist/neural",
+                    "routes": "./dist/routes",
+                    "status_codes": "./dist/status_codes.js",
+                    "utils": "./dist/utils",
+                    "views": "./dist/views"
+                }
+            }
+        ]
+    ],
+    "sourceType": "unambiguous"
+}

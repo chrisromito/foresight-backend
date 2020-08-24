@@ -1,0 +1,21 @@
+{% extends 'signup/base.html' %}
+{% block body %}
+    <div class="trial--content">
+        {#-- CTA --#}
+        {% include './signup_form.html' %}
+
+        {# TODO: (2019-Jun-08) Continue building out the home page #}
+    </div> {# End: .home--content #}
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        window.CONFIG = {
+            page: 'trial'
+        }
+    </script>
+    {{ loadBundle('signup_site')|safe }}
+
+{% endblock %}

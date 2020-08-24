@@ -1,0 +1,114 @@
+{% set pages = [
+    {
+        index: 0,
+        name: 'Dashboard',
+        icon: 'mdi mdi-view-grid',
+        page: 'dashboard',
+        url: '/analytics/'
+    },
+    {
+        index: 1,
+        name: 'Real-Time',
+        icon: 'mdi mdi-update',
+        page: 'real_time',
+        url: '/analytics/real_time/'
+    },
+    {
+        index: 2,
+        name: 'Traffic',
+        icon: 'mdi mdi-chart-timeline',
+        page: 'traffic',
+        url: '/analytics/traffic/'
+    },
+    {
+        index: 3,
+        name: 'Interaction',
+        icon: 'mdi mdi-sitemap',
+        page: 'interaction',
+        url: '/analytics/interaction/'
+    }
+] %}
+
+<html>
+<head>
+    {% include 'html_header.html' %}
+    <title>Action Tracker | Analytics {% block title %}{% endblock %}</title>
+    {% block styles -%}
+    {%- endblock %}
+
+</head>
+<body class='mdc-typography mdc-typography--body1 mdc-theme--background'
+        style='margin: 0;'>
+    <md-app id='app' class='main-content page-container'>
+        <md-app-toolbar class='md-primary'>
+            <md-button class='md-icon-button'
+                    href='/analytics/'>
+                <span class='text-secondary material-icons mdc-toolbar__menu-icon'>track_changes</span>
+            </md-button>
+            <h3 class='md-title' style='flex: 1;'>
+                Action Tracker
+            </h3>
+        </md-app-toolbar>
+
+        {#-- Side Nav --#}
+        <md-app-drawer md-permanent="full">
+            <md-toolbar class='md-transparent' md-elevation='0'>
+                <span class='md-title'>Analytics</span>
+            </md-toolbar>
+
+            {% block nav_list -%}
+                <md-list class='nav-list'>
+                    {% for page_item in pages %}
+                        {% set selected=(true if page and page_item.page == page else false) %}
+                        <md-list-item href='{{ page_item.url }}' class='{{ "md-list-item--selected md-list-item--active" if selected else "" }}'>
+                            <md-icon class='{{ page_item.icon }}'></md-icon>
+                            <span class='md-list-item-text'>{{ page_item.name }}</span>
+                        </md-list-item>
+                    {% endfor %}
+                </md-list>
+
+            {%- endblock %}
+        </md-app-drawer> {# End: Side Nav #}
+
+        <md-app-content>
+                {% block secondary_toolbar %}{% endblock %}
+
+            <div class=' md-layout'>
+                <div class='md-layout-item md-size-100'>
+
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </div>
+        </md-app-content>
+    </md-app>
+
+    {% block footer %}
+    {% endblock %}
+
+    {% block site_scripts %}
+        <script>
+            window.CSRF = String(`{{ csrfToken }}`);
+        </script>
+    {% endblock %}
+
+
+    {% block scripts %}
+        <script>
+            window.CONFIG = {
+                page: String('{{ page }}')
+            };
+
+            window.PAGES = ({{ pages|dump|safe }});
+        </script>
+
+        {{ loadBundle('analytics')|safe }}
+
+    {% endblock %}
+    
+
+    {# Load icons last due to weight of payload & unpredictable nature of CDNs #}
+    <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+    <link href='https://cdn.materialdesignicons.com/3.7.95/css/materialdesignicons.min.css' rel='stylesheet'>
+</body>
+</html>

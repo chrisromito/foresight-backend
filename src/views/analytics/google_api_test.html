@@ -1,0 +1,53 @@
+{% extends 'signup/base.html' %}
+
+{% set redirect_url = redirectTo or '/analytics/' %}
+
+{% block body %}
+    {% if googleOauthUrl %}
+        <div class="dashboard--content">
+            <a id="init-oauth-workflow" href="{{ googleOauthUrl }}">
+                    
+                Click here to start the oAuth2 Workflow
+            </a>
+        </div> {# End: .dashboard--content #}
+    {% elif errors %}
+        <div class="dashboard--content">
+            <md-content>
+                <h4 class="md-display-2">Authentication Error</h4>
+                <p class="md-body2">
+                    We could not authenticate your Google credentials. Please contact your Google account administrator.
+                    <br>
+
+                    If you are the account administrator, please <a href="https://support.google.com/analytics/answer/1008015?hl=en" target="_blank">ensure that Google Analytics is enabled for your account.</a>
+                </p>
+            </md-content>
+        </div>        
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        window.CONFIG = {
+            page: 'home'
+        }
+    </script>
+    {{ loadBundle('signup_site')|safe }}
+
+
+    {% if googleOauthUrl %}
+        <script>
+            window.localStorage.setItem('preOAuthRedirectTo', '{{ redirect_url }}');
+            document.querySelector('#init-oauth-workflow').click()
+        </script>
+    {% elif not errors %}
+        {# Otherwise, we've received the tokens.  Redirect to the specified page where appropriate #}
+        <script>
+            var newUrl = window.localStorage.getItem('preOAuthRedirectTo') || String(`{{ redirect_url }}`);
+            window.localStorage.setItem('preOAuthRedirectTo', '');
+            window.location = newUrl
+            console.log('not googleOauthUrl');
+            console.log(newUrl);
+        </script>
+    {% endif %}
+{% endblock %}

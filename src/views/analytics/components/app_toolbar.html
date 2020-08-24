@@ -1,0 +1,4 @@
+{% macro toolbar(title='Interaction', icon='mdi mdi-fire text--error', page_list=false) %}
+    {% set page_list_attr="page_list='"+ page_list|dump|safe + "'" if page_list else '' %}
+    <app-tool-bar title="{{ title }}" icon="{{ icon }}" {{ page_list_attr|safe }}></app-tool-bar>
+{% endmacro %}

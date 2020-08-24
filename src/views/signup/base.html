@@ -1,0 +1,84 @@
+<html>
+<head>
+    {% include 'html_header.html' %}
+    <title>Action Tracker {% block title %}{% endblock %}</title>
+    {% block styles %}
+    {% endblock %}
+
+</head>
+<body class='mdc-typography mdc-typography--body1 mdc-theme--background'
+        style='margin: 0;'>
+    {% block pre_app_content %}
+    {% endblock %}
+    <div id='app' class='main-content page-container'>
+        {# <md-app md-mode='fixed'> #}
+            <md-toolbar  class='md-primary'>
+                <md-button class='md-icon-button'
+                        href='/'>
+                    <a class='text-secondary material-icons mdc-toolbar__menu-icon'>track_changes</a>
+                </md-button>
+                <h3 class='md-title' style='flex: 1;'>
+                    Action Tracker
+                </h3>
+                
+                {% set nav_links = [
+                    {
+                        text: 'Overview',
+                        url: '/'
+                    },
+                    {
+                        text: 'Features',
+                        url: '/features/'
+                    },
+                    {
+                        text: 'Compare',
+                        url: '/compare/'
+                    },
+                    {
+                        text: 'Sign in',
+                        url: '/login/'
+                    },
+                    {
+                        text: 'Start for Free',
+                        url: '/trial/',
+                        cls: 'md-accent md-raised '
+                    }
+                ] %}
+                {% for link in nav_links %}
+                    <md-button href='{{ link.url }}' {% if link.cls %} class='{{ link.cls }}' {% endif %}>
+                        {{ link.text }}
+                    </md-button>
+                {% endfor %}
+            </md-toolbar>
+            <md-content class='body--main'>
+                <div class=' md-layout'>
+                    <div class='md-layout-item '>
+
+                        {% block body %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </md-content>
+        {# </md-app> #}
+    </div>
+
+    {% block footer %}
+    {% endblock %}
+
+    {% block site_scripts %}
+        <script>
+            window.CSRF = String(`{{ csrfToken }}`);
+        </script>
+        {# <script src='/site.bundle.js'></script> #}
+    {% endblock %}
+
+    {% block scripts %}
+
+    {% endblock %}
+
+    {# Load icons last due to weight of payload & unpredictable nature of CDNs #}
+    <link href='https://fonts.googleapis.com/icon?family=Material+Icons'
+  rel='stylesheet'>
+    <link href='https://cdn.materialdesignicons.com/2.8.94/css/materialdesignicons.min.css' rel='stylesheet'>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends 'signup/base.html' %}
+{% block body %}
+    <div class="login--content">
+        <div class="login--card-container">
+            <md-card class="width--100">
+                <md-card-header class="login--card-header">
+                    <md-card-header-text>
+                        <div class="md-title">Sign In</div>
+                    </md-card-header-text>
+                </md-card-header>
+
+                {# Form #}
+                <md-card-content @click="markValid"
+                        class="login--card-content">
+                    <form @submit="submitForm"
+                            id="login--form"
+                            class="login--form"
+                            method="POST">
+                        {# Email #}
+                        <md-field>
+                            <label for="email">
+                                Email
+                            </label>
+                            <md-input v-model="email"
+                                    id="email"
+                                    type="email"
+                                    name="username"
+                                    required
+                                    minlength="2"
+                                    maxlength="400"></md-input>
+                        </md-field>
+
+                        <div class="width--100 pad--top-20">
+                            {# password #}
+                            <md-field :md-toggle-password="true">
+                                <label for="password">
+                                    Password
+                                </label>
+                                <md-input v-model="password"
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        required></md-input>
+                            </md-field>
+                        </div>
+                    </form>
+                </md-card-content>
+
+                <md-progress-bar md-mode="indeterminate" v-if="saving"></md-progress-bar>
+
+                {# Actions #}
+                <md-card-actions class="pad--bottom-15 pad--h-15">
+                    <md-button href="/forgot_password/" class="pad--right-40">
+                        Forgot Password
+                    </md-button>
+                    <md-button @click="submitForm"
+                            v-bind:disabled="saving"
+                            class="md-accent md-raised">
+                        Submit
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+        <md-snackbar
+                :md-duration="Infinity"
+                :md-active.sync="isLoggedIn">
+            <span>
+                Successfully logged in.
+                Redirecting to Action Tracker Analytics
+            </span>
+        </md-snackbar>
+        <md-snackbar
+                :md-active.sync="invalid">
+            <md-icon class="mdi mdi-alert-circle-outline text--error"></md-icon>
+            <span>
+                Invalid login credentials.
+                Please re-enter your email and password.
+            </span>
+        </md-snackbar>
+
+    </div> {# End: .home--content #}
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    
+    {#
+    <script src="/login.bundle.js"></script>
+    #}
+    {{ loadBundle('login')|safe }}
+
+{% endblock %}

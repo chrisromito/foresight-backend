@@ -1,0 +1,168 @@
+Foresight TODO:
+=======================
+
+[ ] - Draw.io data model diagram: https://drive.google.com/file/d/1swQg_Lk5HtKyZOUOEGuJty2m0p3n5TC4/view?usp=sharing
+
+Actions & Action Path refactor
+==================================
+- Actions are records of application interaction chained into sequential events
+- Paths denote sequence ordering & hierarchy
+
+[x] - Update Action Tags to point to Actions instead of Action Paths instead
+
+[x] - Implement 'lift' method for ActionPaths
+
+[x] - Tests
+    - Test that Actions are stored sequentially. 
+    - Test lift method
+
+
+Tag Maps
+===========
+[x] - Add Tag mapping implementation
+    - Client Tag
+    - Action Tag
+    - Page View Path Tag
+    - Page Tag
+
+
+JWT Implementation
+==============================
+[x] - Model
+[x] - Service
+[x] - Spec
+[x] - Middleware
+
+
+
+Public API & WebSocket (used by the script that users add to their app/website):
+==========================================================================================
+[x] - Page view REST
+    [x] - POST Creates page view
+    [x] - Maps tags
+    [x] - Returns Page View, Tags, User, & URLs for other endpoints (see below)
+
+
+[x] - Page View Socket
+    [x] - Connect after response from Page View REST POST
+    [x] - Endpoint provided in the Page View response
+    [x] - Use JWT provided in Page View Response
+    [x] - Receive (& dispatch) streams of actions
+    [x] - Receive (& dispatch) streams of tags
+    [NOT_DOING] - Keeps track of how many users are currently viewing a single page
+        TODO: (not doing) Consider creating a denormalized table for this
+            - NOTE: See below.  Doing the above would result in much more book-keeping than we actually need (think task runners, etc.)
+    [x] - On Disconnect -> Mark Page View as inactive
+
+
+[x] - Tests for Public API
+    [x] - HTTP
+    [x] - CRUD functionality tests
+    [x] - JWT auth workflow
+        [x] - Success & Failures
+    [x] - WebSockets
+        [x] - Assert that it actually marks the PageView as inactive on disconnect
+        [x] - Functionality tests for mapping Actions and Tags
+
+[x] - Statistical Models
+    [x] - Stat Value & Stat Type - Separate different types of statistics (hours vs. days) while being able to have
+        specific values.  Ex. a specific day (which will literally only ever occur once), vs. a day-of-the-week (which repeats weekly)
+    [x] - Page View Stats, Page View Path Stats + Tag Maps & Action Maps for page view stat models
+        - Denormalized aggregate queries
+        - Combine w/ Stat Values & Stat Types to maximize flexibility.
+            - This lets us store stats in one place, but use stat-values as a "lens"
+    [x] - Referrer Stats
+
+
+
+Dashboard & Private API  (frontend MVP)
+==========================================================================================
+[ ] - Dashboards & simple interface API Endpoints:
+- User stats (dashboard):
+    - Data:
+        - Bounce User count
+        - Unique user count
+        - Total user count
+    - Filters & query params:
+        - Client (implicit)
+        - Page(s)
+        - startDate
+
+- Referrers (dashboard):
+    - Data:
+        - Total count
+        - Unique count
+        - Bounce count
+        - Referrer
+        - Stat Value
+    - Filters & query params:
+        - Client (implicit)
+        - Page(s)
+        - startDate
+    - Nice to have:
+        - URL filter.  Ie. referrer_urls__in=['facebook.com', 'google.com']
+
+- Page View Stats (dashboard):
+    - Data:
+        - Page
+        - Stat value & stat type
+        - Stat count (total # of page views)
+        - Entry count (total # of page views where this was the first page in a user's journey)
+        - Exit count (total # of page views where this was the last page in a user's journey)
+        - Actions & action types
+        - Tags & tag types
+    - Filters & query params:
+        - Client (implicit)
+        - Page
+        - startDate
+
+[ ] - SPAs & complex interface API Endpoints:
+- Page View Path (stats):
+    - Data:
+        - From page (optional)
+        - To page
+        - Path
+        - index
+        - Stat value + stat type
+        - Stat count (# of occurrences)
+        - Tags
+        - Actions
+    - Filters & query params:
+        - Client (implicit)
+        - From page(s)
+        - To page(s)
+        - Index
+        - Start date
+        - tags or tag types
+        - actions or action types
+- Tags
+    - Data:
+        - Tag type
+        - Frequency
+        - Context?  Uses?  Something like taht?
+    - Filters & query params:
+        - Client (implicit)
+        - Tag Type
+
+
+
+TODO: Subscriptions & Payments
+    ================================
+    Subscription Sub-App ** NOTE THE SUB-APP PART **.  This  Needs to facilitate trials
+    [ ] - Needs to have payment tiers based on what features users want
+        - Subscription attributes "unlock" features
+        [ ] - DB
+        [ ] - Models
+        [ ] - Service(s)
+        [ ] - Tests
+    [ ] - Client subscription (normalization)
+        [ ] - DB
+        [ ] - Models
+        [ ] - Service(s)
+        [ ] - Tests
+    [ ] - Daily cron task to propagate renewals, expired subscriptions/trials, etc.
+
+[ ] - Client Goal model
+    [ ] - Allow customers/clients to  create Goals
+        [ ] - Goal
+

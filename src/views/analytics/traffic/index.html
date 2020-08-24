@@ -1,0 +1,18 @@
+{% extends 'analytics/base.html' %}
+{% from 'analytics/components/app_toolbar.html' import toolbar %}
+
+{% block secondary_toolbar %}
+    <at-tool-bar title="Traffic" icon="mdi mdi-chart-timeline  text--error"></at-tool-bar>
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard--content flex flex--align-start flex--justify-start">
+        <traffic-overview pages="{{ pages }}"></traffic-overview>
+
+        <devices-breakdown></devices-breakdown>
+
+        <time-distribution></time-distribution>
+
+    </div> {# End: .dashboard--content #}
+
+{% endblock %}

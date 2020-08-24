@@ -1,0 +1,10 @@
+{% extends './error_base_template.html' %}
+{% block body %}
+    <h2 class="w-100">
+        {% if status and status < 500 %}
+            {{ status }}: You messed up
+        {% else %}
+            {{ status }}: We messed up
+        {% endif %}
+    </h2>
+{% endblock %}
